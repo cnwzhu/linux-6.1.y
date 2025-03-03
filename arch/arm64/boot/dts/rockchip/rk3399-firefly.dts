@@ -40,13 +40,13 @@
 		work_led: led-0 {
 			label = "work";
 			default-state = "on";
-			gpios = <&gpio2 RK_PD3 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio2 7 GPIO_ACTIVE_HIGH>;
 		};
 
 		diy_led: led-1 {
 			label = "diy";
 			default-state = "off";
-			gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio2 2 GPIO_ACTIVE_HIGH>;
 		};
 	};
 
