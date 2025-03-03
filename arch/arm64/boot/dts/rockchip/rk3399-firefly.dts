@@ -117,13 +117,6 @@
 	i2c-scl-rising-time-ns = <600>;
 	i2c-scl-falling-time-ns = <20>;
 	status = "okay";
-
-	accelerometer@68 {
-		compatible = "invensense,mpu6500";
-		reg = <0x68>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <RK_PC6 IRQ_TYPE_EDGE_RISING>;
-	};
 };
 
 &pinctrl {
