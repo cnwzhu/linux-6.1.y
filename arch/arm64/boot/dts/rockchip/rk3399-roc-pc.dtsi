@@ -544,35 +544,6 @@
 	i2c-scl-rising-time-ns = <600>;
 	i2c-scl-falling-time-ns = <20>;
 	status = "disabled";
-
-	fusb0: usb-typec@22 {
-		compatible = "fcs,fusb302";
-		reg = <0x22>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&fusb0_int>;
-		vbus-supply = <&vcc_vbus_typec0>;
-		status = "okay";
-	};
-
-	mp8859: regulator@66 {
-		compatible = "mps,mp8859";
-		reg = <0x66>;
-		dc_12v: mp8859_dcdc {
-			regulator-name = "dc_12v";
-			regulator-min-microvolt = <12000000>;
-			regulator-max-microvolt = <12000000>;
-			regulator-always-on;
-			regulator-boot-on;
-			vin-supply = <&vcc_vbus_typec0>;
-
-			regulator-state-mem {
-				regulator-on-in-suspend;
-				regulator-suspend-microvolt = <12000000>;
-			};
-		};
-	};
 };
 
 &i2s0 {
