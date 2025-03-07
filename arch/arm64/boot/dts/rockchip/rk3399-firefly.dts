@@ -25,13 +25,6 @@
 		};
 	};
 
-	ir-receiver {
-		compatible = "gpio-ir-receiver";
-		gpios = <&gpio0 RK_PA6 GPIO_ACTIVE_LOW>;
-		pinctrl-0 = <&ir_int>;
-		pinctrl-names = "default";
-	};
-
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
@@ -75,13 +68,6 @@
 
 };
 
-&rk808{
-	rtc {
-		compatible = "rk808-rtc";	
-		status = "disabled";
-	};
-};
-
 &i2c0 {
 	status = "okay";
 };
@@ -99,14 +85,26 @@
 		realtek,in1-differential;
 		#sound-dai-cells = <0>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&rt5640_hpcon>;
+		pinctrl-0 = <&rt5640_hpcon  &i2s_8ch_mclk>;
+		hp-con-gpio = <&gpio4 21 GPIO_ACTIVE_HIGH>;
+		io-channels = <&saradc 4>;
+		hp-det-adc-value = <500>;
 	};
 };
 
 &i2c4 {
-	i2c-scl-rising-time-ns = <600>;
-	i2c-scl-falling-time-ns = <20>;
+	i2c-scl-rising-time-ns = <475>;
+	i2c-scl-falling-time-ns = <26>;
 	status = "okay";
+	fusb0: fusb30x@22 {
+		compatible = "fairchild,fusb302";
+		reg = <0x22>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&fusb0_int>;
+		int-n-gpios = <&gpio1 2 GPIO_ACTIVE_HIGH>;
+		vbus-5v-gpios = <&gpio1 3 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
 };
 
 &pinctrl {
@@ -153,6 +151,25 @@
 	};
 
 	pmic {
+		pmic_int_l: pmic-int-l {
+			rockchip,pins =
+				<1 21 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+
+		pmic_dvs2: pmic-dvs2 {
+			rockchip,pins =
+				<1 18 RK_FUNC_GPIO &pcfg_pull_down>;
+		};
+
+		pmic_stby: pmic-stby {
+			rockchip,pins =
+				<1 24 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+
+		pmic_hold: pmic-hold{
+			rockchip,pins =
+				<1 13 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
 		vsel1_pin: vsel1-pin {
 			rockchip,pins = <1 RK_PC2 RK_FUNC_GPIO &pcfg_pull_down>;
 		};
@@ -189,6 +206,12 @@
 	wifi {
 		wifi_host_wake_l: wifi-host-wake-l {
 			rockchip,pins = <0 RK_PA3 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+
+	fusb30x {
+		fusb0_int: fusb0-int {
+			rockchip,pins = <1 2 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
 
